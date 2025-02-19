@@ -5,8 +5,8 @@ from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
 
 query = gql("""
-{
-  search(query: "stars:>1", type: REPOSITORY, first: 10) {
+query ($first: Int!, $after: String) {
+  search(query: "stars:>1", type: REPOSITORY, first: $first, after: $after) {
     edges {
       node {
         ... on Repository {
