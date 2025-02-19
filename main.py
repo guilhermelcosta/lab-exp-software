@@ -59,26 +59,25 @@ def setup_github_client():
     return Client(transport=transport, fetch_schema_from_transport=True)
 
 
-def fetch_repositories(repositories_count=1000):
+def main():
     client = setup_github_client()
     has_next = True
     cursor = None
-    repositories_fetched = []
+    repositories_count = 0
 
-    while has_next and len(repositories_fetched) <= repositories_count:
+    while has_next and repositories_count <= 1000:
         response = client.execute(query, variable_values={'first': 10, 'after': cursor})
         repositories = response['search']['edges']
+        repositories_count += len(repositories)
         page_info = response['search']['pageInfo']
         has_next = page_info['hasNextPage']
         cursor = page_info['endCursor']
-        repositories_fetched.extend(repositories)
+        print(repositories_count)
 
-    return repositories_fetched
+    # print(response)
 
 
-def main():
-    print(fetch_repositories(20))
-
+# response = client.execute(query, variable_values={'first': 10})
 
 if __name__ == '__main__':
     main()
