@@ -65,30 +65,31 @@ def setup_github_client():
 def write_csv(repositories_fetched):
     csv_file = 'repositories.csv'
 
-    with open(csv_file, 'a', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'language', 'openPullRequests',
-                      'mergedPullRequests', 'releases', 'openIssues', 'closedIssues']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    if not os.path.exists(csv_file):
+        with open(csv_file, 'a', newline='', encoding='utf-8') as csvfile:
+            fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'language', 'openPullRequests',
+                          'mergedPullRequests', 'releases', 'openIssues', 'closedIssues']
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-        if os.stat(csv_file).st_size == 0:
-            writer.writeheader()
+            if os.stat(csv_file).st_size == 0:
+                writer.writeheader()
 
-        for repo in repositories_fetched:
-            repo_data = repo['node']
-            writer.writerow({
-                'name': repo_data['name'],
-                'stargazerCount': repo_data['stargazerCount'],
-                'owner': repo_data['owner']['login'],
-                'createdAt': repo_data['createdAt'],
-                'updatedAt': repo_data['updatedAt'],
-                'language': repo_data['languages']['nodes'][0]['name'] if repo_data['languages'][
-                    'nodes'] else "Unknown",
-                'openPullRequests': repo_data['openPullRequests']['totalCount'],
-                'mergedPullRequests': repo_data['mergedPullRequests']['totalCount'],
-                'releases': repo_data['releases']['totalCount'],
-                'openIssues': repo_data['openIssues']['totalCount'],
-                'closedIssues': repo_data['closedIssues']['totalCount']
-            })
+            for repo in repositories_fetched:
+                repo_data = repo['node']
+                writer.writerow({
+                    'name': repo_data['name'],
+                    'stargazerCount': repo_data['stargazerCount'],
+                    'owner': repo_data['owner']['login'],
+                    'createdAt': repo_data['createdAt'],
+                    'updatedAt': repo_data['updatedAt'],
+                    'language': repo_data['languages']['nodes'][0]['name'] if repo_data['languages'][
+                        'nodes'] else "Unknown",
+                    'openPullRequests': repo_data['openPullRequests']['totalCount'],
+                    'mergedPullRequests': repo_data['mergedPullRequests']['totalCount'],
+                    'releases': repo_data['releases']['totalCount'],
+                    'openIssues': repo_data['openIssues']['totalCount'],
+                    'closedIssues': repo_data['closedIssues']['totalCount']
+                })
 
 
 def fetch_repositories(repositories_count=1000):
@@ -110,7 +111,7 @@ def fetch_repositories(repositories_count=1000):
 
 
 def main():
-    write_csv(fetch_repositories())
+    write_csv(fetch_repositories(10))
 
 
 if __name__ == '__main__':
