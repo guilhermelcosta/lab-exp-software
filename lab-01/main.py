@@ -111,7 +111,7 @@ def fetch_repositories(repositories_count=1000):
 
 
 def main():
-    write_csv(fetch_repositories(10))
+    write_csv(fetch_repositories())
 
 
 if __name__ == '__main__':
