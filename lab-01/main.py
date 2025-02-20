@@ -1,7 +1,11 @@
 import os
 import csv
+
+from dotenv import load_dotenv
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
+
+load_dotenv()
 
 query = gql(""" 
 query ($first: Int!, $after: String) { 
@@ -47,14 +51,45 @@ query ($first: Int!, $after: String) {
 } 
 """)
 
+
 def setup_github_client():
     transport = RequestsHTTPTransport(
         url='https://api.github.com/graphql',
         headers={
-            'Authorization': f'Bearer YOUR_GITHUB_TOKEN_HERE'},
+            'Authorization': f'Bearer {os.getenv("GITHUB_TOKEN")}'},
         use_json=True
     )
     return Client(transport=transport, fetch_schema_from_transport=True)
+
+
+def write_csv(repositories_fetched):
+    csv_file = 'repositories.csv'
+
+    with open(csv_file, 'a', newline='', encoding='utf-8') as csvfile:
+        fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'language', 'openPullRequests',
+                      'mergedPullRequests', 'releases', 'openIssues', 'closedIssues']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+        if os.stat(csv_file).st_size == 0:
+            writer.writeheader()
+
+        for repo in repositories_fetched:
+            repo_data = repo['node']
+            writer.writerow({
+                'name': repo_data['name'],
+                'stargazerCount': repo_data['stargazerCount'],
+                'owner': repo_data['owner']['login'],
+                'createdAt': repo_data['createdAt'],
+                'updatedAt': repo_data['updatedAt'],
+                'language': repo_data['languages']['nodes'][0]['name'] if repo_data['languages'][
+                    'nodes'] else "Unknown",
+                'openPullRequests': repo_data['openPullRequests']['totalCount'],
+                'mergedPullRequests': repo_data['mergedPullRequests']['totalCount'],
+                'releases': repo_data['releases']['totalCount'],
+                'openIssues': repo_data['openIssues']['totalCount'],
+                'closedIssues': repo_data['closedIssues']['totalCount']
+            })
+
 
 def fetch_repositories(repositories_count=1000):
     client = setup_github_client()
@@ -62,46 +97,21 @@ def fetch_repositories(repositories_count=1000):
     cursor = None
     repositories_fetched = []
 
-    csv_file = 'repositories.csv'
-    
-    with open(csv_file, 'a', newline='', encoding='utf-8') as csvfile:
-        fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'language', 'openPullRequests', 
-                      'mergedPullRequests', 'releases', 'openIssues', 'closedIssues']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-        if os.stat(csv_file).st_size == 0:
-            writer.writeheader()
-
-        while has_next and len(repositories_fetched) < repositories_count:
-            response = client.execute(query, variable_values={'first': 10, 'after': cursor})
-            repositories = response['search']['edges']
-            page_info = response['search']['pageInfo']
-            has_next = page_info['hasNextPage']
-            cursor = page_info['endCursor']
-            repositories_fetched.extend(repositories)
-
-            for repo in repositories:
-                repo_data = repo['node']
-                writer.writerow({
-                    'name': repo_data['name'],
-                    'stargazerCount': repo_data['stargazerCount'],
-                    'owner': repo_data['owner']['login'],
-                    'createdAt': repo_data['createdAt'],
-                    'updatedAt': repo_data['updatedAt'],
-                    'language': repo_data['languages']['nodes'][0]['name'] if repo_data['languages']['nodes'] else "Unknown",
-                    'openPullRequests': repo_data['openPullRequests']['totalCount'],
-                    'mergedPullRequests': repo_data['mergedPullRequests']['totalCount'],
-                    'releases': repo_data['releases']['totalCount'],
-                    'openIssues': repo_data['openIssues']['totalCount'],
-                    'closedIssues': repo_data['closedIssues']['totalCount']
-                })
-
-            print(f"Fetched {len(repositories_fetched)} repositories so far.")
+    while has_next and len(repositories_fetched) < repositories_count:
+        response = client.execute(query, variable_values={'first': 10, 'after': cursor})
+        repositories = response['search']['edges']
+        page_info = response['search']['pageInfo']
+        has_next = page_info['hasNextPage']
+        cursor = page_info['endCursor']
+        repositories_fetched.extend(repositories)
+        print(f"Repositories fetched so far: {len(repositories_fetched)}")
 
     return repositories_fetched
 
+
 def main():
-    fetch_repositories(1000)
+    write_csv(fetch_repositories())
+
 
 if __name__ == '__main__':
     main()
