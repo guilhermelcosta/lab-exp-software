@@ -1,8 +1,11 @@
 import os
 from http.client import responses
 
+from dotenv import load_dotenv
 from gql import gql, Client
 from gql.transport.requests import RequestsHTTPTransport
+
+load_dotenv()
 
 query = gql("""
 query ($first: Int!, $after: String) {
@@ -52,8 +55,7 @@ query ($first: Int!, $after: String) {
 def setup_github_client():
     transport = RequestsHTTPTransport(
         url='https://api.github.com/graphql',
-        headers={
-            'Authorization': f'Bearer TOKEN'},
+        headers={'Authorization': f'Bearer {os.getenv("GITHUB_TOKEN")}'},
         use_json=True
     )
     return Client(transport=transport, fetch_schema_from_transport=True)
