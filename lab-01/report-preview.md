@@ -6,15 +6,15 @@ O objetivo deste laboratório é estudar as principais características de siste
 métricas que podem revelar aspectos importantes sobre o desenvolvimento desses projetos. Especificamente, buscamos
 analisar:
 
-RQ 01: Verificar se sistemas populares são maduros/antigos, analisando a idade dos repositórios.
-RQ 02: Examinar se sistemas populares recebem muita contribuição externa, medindo o total de pull requests aceitas.
-RQ 03: Analisar a frequência de lançamentos de releases em sistemas populares, calculando o total de releases.
-RQ 04: Avaliar a frequência de atualizações em sistemas populares, verificando o tempo desde a última atualização.
-RQ 05: Identificar se os sistemas populares são escritos nas linguagens mais populares, analisando a linguagem primária
-de cada repositório.
-RQ 06: Estudar o percentual de issues fechadas nos sistemas populares, calculando a razão entre o número de issues
+- RQ 01: Verificar se sistemas populares são maduros/antigos, analisando a idade dos repositórios.
+- RQ 02: Examinar se sistemas populares recebem muita contribuição externa, medindo o total de pull requests aceitas.
+- RQ 03: Analisar a frequência de lançamentos de releases em sistemas populares, calculando o total de releases.
+- RQ 04: Avaliar a frequência de atualizações em sistemas populares, verificando o tempo desde a última atualização.
+- RQ 05: Identificar se os sistemas populares são escritos nas linguagens mais populares, analisando a linguagem primária
+- de cada repositório.
+- RQ 06: Estudar o percentual de issues fechadas nos sistemas populares, calculando a razão entre o número de issues
 fechadas e o total de issues.
-RQ 07: Investigar se sistemas escritos nas linguagens mais populares recebem mais contribuição externa, lançam mais
+- RQ 07: Investigar se sistemas escritos nas linguagens mais populares recebem mais contribuição externa, lançam mais
 releases e são atualizados com mais frequência.
 
 ## Metodologia
