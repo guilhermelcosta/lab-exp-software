@@ -1,4 +1,4 @@
-# Relatório laboratório 1 (preliminar)
+# Relatório laboratório 1
 
 ## Objetivos do relatório
 
@@ -27,29 +27,29 @@ populares do GitHub, utilizando a API GraphQL do GitHub. O processo será dividi
 A coleta de dados será realizada por uma consulta GraphQL personalizada para obter informações sobre os 1.000
 repositórios mais populares no GitHub. Para isso, será necessário:
 
-Consulta GraphQL: Desenvolver uma consulta para buscar informações sobre o nome do repositório, número de estrelas,
+- Consulta GraphQL: Desenvolver uma consulta para buscar informações sobre o nome do repositório, número de estrelas,
 proprietário, datas de criação e atualização, linguagem principal, quantidade de pull requests abertos e mesclados,
 número de releases e issues abertas e fechadas.
-Paginação: Para coletar dados de todos os 1.000 repositórios, implementaremos a funcionalidade de paginação na consulta
-GraphQL, garantindo que a API do GitHub seja consultada de maneira eficiente, sem sobrecarregar o sistema.
-Armazenamento em CSV: Os dados serão armazenados num arquivo .csv para facilitar a análise posterior.
+- Paginação: Para coletar dados de todos os 1.000 repositórios, implementaremos a funcionalidade de paginação na consulta
+GraphQL, garantindo que a API do GitHub seja consultada de maneira eficiente.
+- Armazenamento em CSV: Os dados serão armazenados num arquivo .csv para facilitar a análise posterior.
 
 2. Análise dos Dados
 
 Após a coleta dos dados, será realizada a análise para responder às questões de pesquisa:
 
-Análise Quantitativa: Será calculado o valor médio ou mediano das métricas para cada questão de pesquisa (RQ), como
+- Análise Quantitativa: Será calculado o valor médio ou mediano das métricas para cada questão de pesquisa (RQ), como
 idade do repositório, número de pull requests, total de releases, e outros. Essas métricas serão comparadas entre
 diferentes repositórios e linguagens.
-Análise Qualitativa: Para as métricas de categoria, como a linguagem primária dos repositórios, será realizada uma
+- Análise Qualitativa: Para as métricas de categoria, como a linguagem primária dos repositórios, será realizada uma
 contagem para identificar quais linguagens são mais comuns entre os repositórios populares.
 
 ## Resultados obtidos
 
 *RQ-01: Sistemas populares são maduros/antigos?*
 
-A idade média dos repositórios analisados foi de 8,6 anos, o que indica que, de fato, os repositórios mais populares
-são, em sua maioria, maduros e têm uma longa trajetória de desenvolvimento.
+Com base nos dados obtidos, analisamos a data de criação de cada repositório para quantificar quantos foram criados a cada ano desde 2008, ano de fundação do GitHub. A partir dessa análise, calculamos a média ponderada da idade dos repositórios, utilizando a fórmula: `(quantidade de repositórios no ano x idade do repositório) / quantidade total de repositórios`. Como resultado, verificamos que a idade média dos repositórios é de 8,6 anos, o que indica que, de fato, os repositórios mais populares são, em sua maioria, maduros e possuem uma longa trajetória de desenvolvimento.
+
 
 ![img.png](assets/img.png)
 
