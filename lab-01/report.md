@@ -10,12 +10,13 @@ analisar:
 - RQ 02: Examinar se sistemas populares recebem muita contribuição externa, medindo o total de pull requests aceitas.
 - RQ 03: Analisar a frequência de lançamentos de releases em sistemas populares, calculando o total de releases.
 - RQ 04: Avaliar a frequência de atualizações em sistemas populares, verificando o tempo desde a última atualização.
-- RQ 05: Identificar se os sistemas populares são escritos nas linguagens mais populares, analisando a linguagem primária
+- RQ 05: Identificar se os sistemas populares são escritos nas linguagens mais populares, analisando a linguagem
+  primária
 - de cada repositório.
 - RQ 06: Estudar o percentual de issues fechadas nos sistemas populares, calculando a razão entre o número de issues
-fechadas e o total de issues.
+  fechadas e o total de issues.
 - RQ 07: Investigar se sistemas escritos nas linguagens mais populares recebem mais contribuição externa, lançam mais
-releases e são atualizados com mais frequência.
+  releases e são atualizados com mais frequência.
 
 ## Metodologia
 
@@ -28,10 +29,11 @@ A coleta de dados será realizada por uma consulta GraphQL personalizada para ob
 repositórios mais populares no GitHub. Para isso, será necessário:
 
 - Consulta GraphQL: Desenvolver uma consulta para buscar informações sobre o nome do repositório, número de estrelas,
-proprietário, datas de criação e atualização, linguagem principal, quantidade de pull requests abertos e mesclados,
-número de releases e issues abertas e fechadas.
-- Paginação: Para coletar dados de todos os 1.000 repositórios, implementaremos a funcionalidade de paginação na consulta
-GraphQL, garantindo que a API do GitHub seja consultada de maneira eficiente.
+  proprietário, datas de criação e atualização, linguagem principal, quantidade de pull requests abertos e mesclados,
+  número de releases e issues abertas e fechadas.
+- Paginação: Para coletar dados de todos os 1.000 repositórios, implementaremos a funcionalidade de paginação na
+  consulta
+  GraphQL.
 - Armazenamento em CSV: Os dados serão armazenados num arquivo .csv para facilitar a análise posterior.
 
 2. Análise dos Dados
@@ -39,17 +41,21 @@ GraphQL, garantindo que a API do GitHub seja consultada de maneira eficiente.
 Após a coleta dos dados, será realizada a análise para responder às questões de pesquisa:
 
 - Análise Quantitativa: Será calculado o valor médio ou mediano das métricas para cada questão de pesquisa (RQ), como
-idade do repositório, número de pull requests, total de releases, e outros. Essas métricas serão comparadas entre
-diferentes repositórios e linguagens.
+  idade do repositório, número de pull requests, total de releases, e outros. Essas métricas serão comparadas entre
+  diferentes repositórios e linguagens.
 - Análise Qualitativa: Para as métricas de categoria, como a linguagem primária dos repositórios, será realizada uma
-contagem para identificar quais linguagens são mais comuns entre os repositórios populares.
+  contagem para identificar quais linguagens são mais comuns entre os repositórios populares.
 
 ## Resultados obtidos
 
 *RQ-01: Sistemas populares são maduros/antigos?*
 
-Com base nos dados obtidos, analisamos a data de criação de cada repositório para quantificar quantos foram criados a cada ano desde 2008, ano de fundação do GitHub. A partir dessa análise, calculamos a média ponderada da idade dos repositórios, utilizando a fórmula: `(quantidade de repositórios no ano x idade do repositório) / quantidade total de repositórios`. Como resultado, verificamos que a idade média dos repositórios é de 8,6 anos, o que indica que, de fato, os repositórios mais populares são, em sua maioria, maduros e possuem uma longa trajetória de desenvolvimento.
-
+Com base nos dados obtidos, analisamos a data de criação de cada repositório para quantificar quantos foram criados a
+cada ano desde 2008, ano de fundação do GitHub. A partir dessa análise, calculamos a média ponderada da idade dos
+repositórios, utilizando a fórmula:
+`(quantidade de repositórios no ano x idade do repositório) / quantidade total de repositórios`. Como resultado,
+verificamos que a idade média dos repositórios é de 8,6 anos, o que indica que, de fato, os repositórios mais populares
+são, em sua maioria, maduros e possuem uma longa trajetória de desenvolvimento.
 
 ![img.png](assets/img.png)
 
