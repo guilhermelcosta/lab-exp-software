@@ -57,36 +57,53 @@ repositórios, utilizando a fórmula:
 verificamos que a idade média dos repositórios é de 8,6 anos, o que indica que, de fato, os repositórios mais populares
 são, em sua maioria, maduros e possuem uma longa trajetória de desenvolvimento.
 
-![img.png](assets/img.png)
+![rq1.png](assets/rq1.png)
 
 ---
 
 *RQ-02: Sistemas populares recebem muita contribuição externa?*
 
-Preliminarmente, a análise sugere que quanto maior o repositório, mais contribuições externas ele tende a receber. No
-entanto, estamos realizando uma análise mais profunda, que considera outliers e será apresentada no relatório final.
-Essa análise adicional pode confirmar ou revisar essa tendência observada até o momento.
+Para avaliar se sistemas populares recebem mais contribuições externas, analisamos a quantidade total de pull requests (
+PRs) aceitos nos repositórios. Em nossa análise inicial, observamos que o número de contribuições aumentava gradualmente
+à medida que o repositório crescia.
 
-![img_1.png](assets/img_1.png)
+![rq2_c_outlier.png](assets/rq2_c_outlier.png)
+
+Em um estudo posterior, identificamos a presença de vários outliers em nossa
+amostra (valores que distorciam ou tendenciavam os resultados). Com isso, decidimos realizar uma nova análise, excluindo
+os outliers (repositórios com números de PRs aceitos significativamente acima ou abaixo da média). Na segunda análise,
+os dados corroboraram as conclusões da primeira: o número de contribuições aumentava conforme o repositório crescia,
+porém de forma menos acentuada. Isso sugere que, ao remover os outliers, a popularidade do repositório exerce menor
+influência no número de contribuições externas do que inicialmente parecia.
+
+![rq2_s_outlier.png](assets/rq2_s_outlier.png)
 
 ---
 
 *RQ-03: Sistemas populares lançam releases com frequência?*
 
-A análise preliminar mostra que repositórios mais populares tendem a lançar menos releases. Contudo, da mesma forma que
-na análise anterior, estamos considerando outliers e essa análise será aprofundada no relatório final, o que poderá
-confirmar ou revisar esse entendimento.
+Em nossa análise inicial, observamos que o número de releases não aumentava necessariamente de acordo com a popularidade
+do repositório, mantendo-se relativamente estável à medida que a popularidade crescia.
 
-![img_2.png](assets/img_2.png)
+![rq3_c_outlier.png](assets/rq3_c_outlier.png)
+
+No entanto, ao removermos os
+valores que poderiam distorcer a análise (outliers), constatamos que o número de releases, na verdade, diminuía à medida
+que a popularidade dos repositórios aumentava. Foi mais comum encontrar projetos sem releases entre os mais populares do
+que entre os menos populares. É importante destacar, contudo, que a quantidade de releases é medida com base nas
+publicações de releases na ferramenta do GitHub. Ou seja, se um repositório não utiliza essa funcionalidade para lançar
+suas releases, os dados não refletem a realidade do projeto nesta análise e por consequência distorce o resultado.
+
+![rq3_s_outlier.png](assets/rq3_s_outlier.png)
 
 ---
 
 *RQ-04: Sistemas populares são atualizados com frequência?*
 
 Não foram observadas diferenças significativas entre os repositórios no que diz respeito à frequência de atualizações. A
-pesquisa foi realizada no dia 20 de fevereiro, e 993 dos 1.000 repositórios buscados haviam sido atualizados nesse mesmo
-dia. Apenas 7 repositórios tinham sido atualizados no dia anterior, o que sugere uma frequência bastante alta de
-atualizações.
+pesquisa foi realizada no dia 20 de fevereiro de 2025, e 993 dos 1.000 repositórios buscados haviam sido atualizados
+nesse mesmo dia. Apenas 7 repositórios tinham sido atualizados no dia anterior (19 de fevereiro de 2025), o que sugere
+uma frequência bastante alta de atualizações nos repositórios como um todo.
 
 ---
 
