@@ -119,11 +119,14 @@ dos repositórios populares está escrita nas linguagens mais comuns no ecossist
 
 *RQ-06: Sistemas populares possuem um alto percentual de issues fechadas?*
 
-Preliminarmente, parece que os repositórios mais populares têm um percentual maior de issues fechadas. Esta análise
-também está sendo complementada com a verificação de outliers, que será apresentada no relatório final. Isso pode
-confirmar ou alterar o entendimento preliminar obtido até agora.
+Preliminarmente, os repositórios mais populares aparentam ter um percentual maior de issues fechadas do que repositórios menores como pode-se ver no gráfico a seguir. 
 
-![img_5.png](assets/img_5.png)
+![rq6_c_outlier.png](assets/rq6_c_outlier.png)
+
+Esta análise é
+também complementada com a verificação de outliers, que, ao serem desconsiderados, comfirmam o mesmo resultado obtido considerando-os. As diferenças entre as duas análises são mínimas devido ao número considerado para outliers ser acima de 100%, que não ocorre nessa situação. Por isso, a maior diferença analisada é que alguns projetos com menos de 20% de isues fechadas foram considerados outloers e removidos do gráfico.
+
+![rq6_s_outlier.png](assets/rq6_s_outlier.png)
 
 ---
 
