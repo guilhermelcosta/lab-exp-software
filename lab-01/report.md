@@ -48,7 +48,7 @@ Após a coleta dos dados, será realizada a análise para responder às questõe
 
 ## Resultados obtidos
 
-*RQ-01: Sistemas populares são maduros/antigos?*
+**RQ-01: Sistemas populares são maduros/antigos?**
 
 Com base nos dados obtidos, analisamos a data de criação de cada repositório para quantificar quantos foram criados a
 cada ano desde 2008, ano de fundação do GitHub. A partir dessa análise, calculamos a média ponderada da idade dos
@@ -61,7 +61,7 @@ são, em sua maioria, maduros e possuem uma longa trajetória de desenvolvimento
 
 ---
 
-*RQ-02: Sistemas populares recebem muita contribuição externa?*
+**RQ-02: Sistemas populares recebem muita contribuição externa?**
 
 Para avaliar se sistemas populares recebem mais contribuições externas, analisamos a quantidade total de pull requests (
 PRs) aceitos nos repositórios. Em nossa análise inicial, observamos que o número de contribuições aumentava gradualmente
@@ -80,7 +80,7 @@ influência no número de contribuições externas do que inicialmente parecia.
 
 ---
 
-*RQ-03: Sistemas populares lançam releases com frequência?*
+**RQ-03: Sistemas populares lançam releases com frequência?**
 
 Em nossa análise inicial, observamos que o número de releases não aumentava necessariamente de acordo com a popularidade
 do repositório, mantendo-se relativamente estável à medida que a popularidade crescia.
@@ -98,7 +98,7 @@ suas releases, os dados não refletem a realidade do projeto nesta análise e po
 
 ---
 
-*RQ-04: Sistemas populares são atualizados com frequência?*
+**RQ-04: Sistemas populares são atualizados com frequência?**
 
 Não foram observadas diferenças significativas entre os repositórios no que diz respeito à frequência de atualizações. A
 pesquisa foi realizada no dia 20 de fevereiro de 2025, e 993 dos 1.000 repositórios buscados haviam sido atualizados
@@ -107,7 +107,7 @@ uma frequência bastante alta de atualizações nos repositórios como um todo.
 
 ---
 
-*RQ-05: Sistemas populares são escritos nas linguagens mais populares?*
+**RQ-05: Sistemas populares são escritos nas linguagens mais populares?**
 
 As linguagens mais populares, de acordo com o Octaverse, são JavaScript, Python, Java, TypeScript e C#. Com exceção do
 C#, todas as outras linguagens estão entre as mais utilizadas nos repositórios analisados, o que indica que a maioria
@@ -117,7 +117,7 @@ dos repositórios populares está escrita nas linguagens mais comuns no ecossist
 
 ---
 
-*RQ-06: Sistemas populares possuem um alto percentual de issues fechadas?*
+**RQ-06: Sistemas populares possuem um alto percentual de issues fechadas?**
 
 Preliminarmente, os repositórios mais populares aparentam ter um percentual maior de issues fechadas do que repositórios menores como pode-se ver no gráfico a seguir. 
 
@@ -130,8 +130,8 @@ também complementada com a verificação de outliers, que, ao serem desconsider
 
 ---
 
-*RQ-07: Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são
-atualizados com mais frequência?*
+**RQ-07: Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são
+atualizados com mais frequência?**
 
 Com base nas análises realizadas nos outros itens, podemos investigar se existe uma relação entre a linguagem usada nos repositórios e três fatores principais: a contribuição externa, a frequência de releases e a frequência de atualizações.
 
