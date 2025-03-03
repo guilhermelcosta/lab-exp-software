@@ -124,7 +124,7 @@ Preliminarmente, os repositórios mais populares aparentam ter um percentual mai
 ![rq6_c_outlier.png](assets/rq6_c_outlier.png)
 
 Esta análise é
-também complementada com a verificação de outliers, que, ao serem desconsiderados, comfirmam o mesmo resultado obtido considerando-os. As diferenças entre as duas análises são mínimas devido ao número considerado para outliers ser acima de 100%, que não ocorre nessa situação. Por isso, a maior diferença analisada é que alguns projetos com menos de 20% de isues fechadas foram considerados outloers e removidos do gráfico.
+também complementada com a verificação de outliers, que, ao serem desconsiderados, comfirmam o mesmo resultado obtido considerando-os. As diferenças entre as duas análises são mínimas devido ao número considerado para outliers ser acima de 100%, que não ocorre nessa situação. Por isso, a maior diferença analisada é que alguns projetos com menos de 20% de isues fechadas foram considerados outliers e removidos do gráfico.
 
 ![rq6_s_outlier.png](assets/rq6_s_outlier.png)
 
