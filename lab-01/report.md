@@ -133,7 +133,18 @@ também complementada com a verificação de outliers, que, ao serem desconsider
 *RQ-07: Sistemas escritos em linguagens mais populares recebem mais contribuição externa, lançam mais releases e são
 atualizados com mais frequência?*
 
-Essa análise será realizada no relatório final, considerando os resultados das análises anteriores, especialmente no que
-diz respeito à linguagem dos repositórios. A partir disso, poderemos entender se existe uma correlação entre as
-linguagens mais populares e as características de contribuição externa, lançamento de releases e frequência de
-atualizações.
+Com base nas análises realizadas nos outros itens, podemos investigar se existe uma relação entre a linguagem usada nos repositórios e três fatores principais: a contribuição externa, a frequência de releases e a frequência de atualizações.
+
+Contribuição Externa:
+
+Observamos que a quantidade de pull requests aceitos aumentava à medida que o repositório crescia, mas com a remoção dos outliers, foi possível verificar que a popularidade do repositório (relacionada à linguagem) tem uma influência moderada nas contribuições externas. A linguagem, por si só, não foi um fator determinante para o aumento das contribuições externas. Contudo, os repositórios escritos em linguagens mais populares (como JavaScript, Python e TypeScript) tendem a ter uma base de usuários maior, o que pode, de forma indireta, resultar em mais contribuições externas.
+
+Lançamento de Releases:
+
+A análise do número de releases mostrou que, ao remover os outliers, o número de releases não aumentava necessariamente com a popularidade do repositório. No entanto, projetos populares, especialmente os que utilizam linguagens como JavaScript e Python, mostraram-se menos dependentes da funcionalidade de releases do GitHub. Alguns repositórios podem optar por outras formas de entrega, como versões contínuas ou dependências gerenciadas externamente, o que pode distorcer a análise de releases diretamente no GitHub.
+
+Frequência de Atualizações:
+
+A frequência de atualizações, em geral, foi muito alta para todos os repositórios, com 993 dos 1.000 repositórios atualizados no mesmo dia da coleta. Essa alta frequência de atualizações não parece estar fortemente correlacionada com a linguagem de programação, indicando que a prática de manter os repositórios atualizados é comum, independentemente da linguagem usada. Isso sugere que a rapidez nas atualizações é mais um reflexo de boas práticas de manutenção do projeto do que da linguagem específica.
+
+Os repositórios escritos em linguagens mais populares, como JavaScript, Python e TypeScript, tendem a atrair mais contribuições externas devido à sua base de usuários maior, mas a relação com o número de releases e a frequência de atualizações não é tão clara. A frequência de releases não está necessariamente relacionada com a popularidade da linguagem, e a manutenção de atualizações é uma prática comum em todos os repositórios, independentemente da linguagem de programação utilizada.
