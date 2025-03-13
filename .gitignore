@@ -260,3 +260,5 @@ cython_debug/
 /.idea/misc.xml
 /.idea/vcs.xml
 /.idea/modules.xml
+/lab-02/results
+/lab-02/repositories

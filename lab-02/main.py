@@ -7,6 +7,11 @@ from gql.transport.requests import RequestsHTTPTransport
 
 load_dotenv()
 
+# Diretórios de saída
+RESULTS_DIR = "results"
+CK_RESULTS_DIR = os.path.join(RESULTS_DIR, "ck_results")
+os.makedirs(CK_RESULTS_DIR, exist_ok=True)
+
 query = gql("""
 query ($first: Int!, $after: String) {
   search(query: "language:Java stars:>1", type: REPOSITORY, first: $first, after: $after) {
@@ -35,7 +40,6 @@ query ($first: Int!, $after: String) {
 }
 """)
 
-
 def setup_github_client():
     transport = RequestsHTTPTransport(
         url='https://api.github.com/graphql',
@@ -44,9 +48,8 @@ def setup_github_client():
     )
     return Client(transport=transport, fetch_schema_from_transport=True)
 
-
 def write_csv(repositories_fetched):
-    csv_file = 'java_repositories.csv'
+    csv_file = os.path.join(RESULTS_DIR, 'java_repositories.csv')
     fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'releases', 'url']
     
     with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
@@ -65,7 +68,6 @@ def write_csv(repositories_fetched):
                 'url': repo_data['url']
             })
 
-
 def fetch_repositories(repositories_count=10):
     client = setup_github_client()
     has_next = True
@@ -83,7 +85,6 @@ def fetch_repositories(repositories_count=10):
 
     return repositories_fetched
 
-
 def clone_repository(repo_url, repo_name):
     os.makedirs("repositories", exist_ok=True)
     repo_path = os.path.join("repositories", repo_name)
@@ -91,32 +92,38 @@ def clone_repository(repo_url, repo_name):
         subprocess.run(["git", "clone", repo_url, repo_path])
     return repo_path
 
-def run_ck_analysis(repo_path, output_dir="ck_output"):
-    os.makedirs(output_dir, exist_ok=True)
+def run_ck_analysis(repo_path):
+    # Executa o CK
     command = ["java", "-jar", "ck.jar", repo_path]
-    print(f"Executando: {' '.join(command)}")  # Debugging do comando
+    print(f"Executando: {' '.join(command)}")
     subprocess.run(command)
 
-    # Imprimir arquivos no diretório de saída para verificar se o CK gerou algo
-    print(f"Arquivos no diretório {output_dir}: {os.listdir(output_dir)}")
+    # Mover arquivos CK gerados para results/ck_results
+    ck_files = ["class.csv", "method.csv", "field.csv", "variable.csv"]
+    for file in ck_files:
+        src_path = file  # Arquivos são gerados na raiz do script
+        dest_path = os.path.join(CK_RESULTS_DIR, file)
+        if os.path.exists(src_path):
+            os.rename(src_path, dest_path)
+            print(f"Movido {file} para {CK_RESULTS_DIR}")
+        else:
+            print(f"Arquivo {file} não encontrado após a execução do CK.")
 
+def summarize_ck_results():
+    class_csv_path = os.path.join(CK_RESULTS_DIR, "class.csv")
+    summary_path = os.path.join(CK_RESULTS_DIR, "ck_summary.csv")
 
-def summarize_ck_results(output_dir=".", summary_file="ck_summary.csv"):
-    ck_file = os.path.join(output_dir, "class.csv")
-    if not os.path.exists(ck_file):
-        print("Arquivo CK não encontrado!")
+    if not os.path.exists(class_csv_path):
+        print("Arquivo class.csv não encontrado para resumo!")
         return
 
-    # Abrindo o arquivo 'class.csv' para leitura
-    with open(ck_file, "r", encoding="utf-8") as infile:
+    with open(class_csv_path, "r", encoding="utf-8") as infile:
         reader = csv.DictReader(infile)
         fieldnames = ["class", "cbo", "dit", "lcom"]
 
-        # Cria uma lista para armazenar os dados extraídos
         summary_data = []
 
         for row in reader:
-            # Verifique se os valores não estão vazios ou nulos
             if row["cbo"] and row["dit"] and row["lcom"]:
                 summary_data.append({
                     "class": row["class"],
@@ -125,30 +132,24 @@ def summarize_ck_results(output_dir=".", summary_file="ck_summary.csv"):
                     "lcom": row["lcom"]
                 })
 
-        # Escrevendo os dados no arquivo de resumo
-        with open(summary_file, "w", newline="", encoding="utf-8") as outfile:
+        with open(summary_path, "w", newline="", encoding="utf-8") as outfile:
             writer = csv.DictWriter(outfile, fieldnames=fieldnames)
-            writer.writeheader()  # Escreve o cabeçalho
-            writer.writerows(summary_data)  # Escreve os dados extraídos
+            writer.writeheader()
+            writer.writerows(summary_data)
 
-    print(f"Resumo salvo em {summary_file}")
-
+    print(f"Resumo salvo em {summary_path}")
 
 def main():
     repositories = fetch_repositories()
     write_csv(repositories)
     
-    # Clonando o primeiro repositório para teste
-    first_repo = repositories[1]['node'] #segundo, na vdd
+    first_repo = repositories[1]['node']
     repo_path = clone_repository(first_repo['url'], first_repo['name'])
     
-    # Rodando análise CK
     run_ck_analysis(repo_path)
     
-    # Resumindo resultados
     summarize_ck_results()
     print("Análise CK concluída para um repositório.")
-
 
 if __name__ == '__main__':
     main()
