@@ -68,7 +68,7 @@ def write_csv(repositories_fetched):
                 'url': repo_data['url']
             })
 
-def fetch_repositories(repositories_count=10):
+def fetch_repositories(repositories_count=1000):
     client = setup_github_client()
     has_next = True
     cursor = None
