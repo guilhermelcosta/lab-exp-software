@@ -43,7 +43,7 @@ def summarize_analysis():
 
     file_list = sorted(os.listdir(current_ck_results_path))
     fieldnames = ['repository_name', 'stargazer_count', 'created_at', 'updated_at', 'release_count', 'cbo_average', 'dit_average',
-                  'lcom_average', 'cbo_median', 'dit_median', 'lcom_median']
+                  'lcom_average', 'cbo_median', 'dit_median', 'lcom_median', 'loc_average', 'loc_median']
 
     repo_data_dict = load_repository_data(repositories_csv_file)
 
@@ -91,23 +91,25 @@ def write_summary(writer, repository_name, value, file_path):
             cbo_index = header.index("cbo")
             dit_index = header.index("dit")
             lcom_index = header.index("lcom")
+            loc_index = header.index("loc")
         except ValueError as e:
             print(f"Error locating columns in file {file_path}: {e}")
             return
 
-        # Filtra e converte os valores numéricos corretamente
         cbo_values = [int(row[cbo_index]) for row in rows[1:] if row[cbo_index].isdigit()]
         dit_values = [int(row[dit_index]) for row in rows[1:] if row[dit_index].isdigit()]
         lcom_values = [int(row[lcom_index]) for row in rows[1:] if row[lcom_index].isdigit()]
+        loc_values = [int(row[loc_index]) for row in rows[1:] if row[loc_index].isdigit()]
 
-        # Calcula média e mediana para cada métrica
         cbo_average = sum(cbo_values) / len(cbo_values) if cbo_values else 0
         dit_average = sum(dit_values) / len(dit_values) if dit_values else 0
         lcom_average = sum(lcom_values) / len(lcom_values) if lcom_values else 0
+        loc_average = sum(loc_values) / len(loc_values) if loc_values else 0
 
         cbo_median = statistics.median(cbo_values) if cbo_values else 0
         dit_median = statistics.median(dit_values) if dit_values else 0
         lcom_median = statistics.median(lcom_values) if lcom_values else 0
+        loc_median = statistics.median(loc_values) if loc_values else 0
 
         writer.writerow({
             'repository_name': repository_name,
@@ -121,4 +123,6 @@ def write_summary(writer, repository_name, value, file_path):
             'dit_median': dit_median,
             'lcom_average': lcom_average,
             'lcom_median': lcom_median,
+            'loc_average': loc_average,
+            'loc_median': loc_median,
         })
