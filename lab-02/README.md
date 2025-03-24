@@ -47,7 +47,7 @@ Esse script:
 Após a execução do script principal, é possível visualizar os dados gerados executando o script de análise:
 
 ```bash
-python lab-01/analyze.py
+python lab-01/main.py
 ```  
 
 Isso gerará gráficos para visualizar as métricas CK, incluindo dispersão entre CBO e DIT, distribuição de CBO e a média das métricas
