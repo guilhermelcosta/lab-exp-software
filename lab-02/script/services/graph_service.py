@@ -6,7 +6,7 @@ import pandas as pd
 from script.constants.constants import RESULTS_DIR, SUMMARY_CK_FILE
 
 csv_file_path = os.path.join(RESULTS_DIR, SUMMARY_CK_FILE)
-df = pd.read_csv(csv_file_path)
+# df = pd.read_csv(csv_file_path)
 
 
 def generate_graphs():
