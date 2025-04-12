@@ -1,33 +1,46 @@
 import csv
 import os
 
-from script.constants.constants import RESULTS_DIR, REPOSITORIES_FILE
+from script.constants.constants import *
 
 
-def write_csv(repositories_fetched):
-    csv_file = os.path.join(RESULTS_DIR, REPOSITORIES_FILE)
-    fieldnames = ['name', 'stargazerCount', 'owner', 'createdAt', 'updatedAt', 'releases', 'url']
-
-    with open(csv_file, 'w', newline='', encoding='utf-8') as csvfile:
+def write_repositories_csv(repositories_fetched, fieldnames, filename, directory=RESULTS_DIR):
+    with open(os.path.join(directory, filename), WRITE_COMMAND, newline=EMPTY_STRING, encoding=STANDARD_ENCODING) as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
         for repo in repositories_fetched:
-            repo_data = repo['node']
-            writer.writerow({
-                'name': repo_data['name'],
-                'stargazerCount': repo_data['stargazerCount'],
-                'owner': repo_data['owner']['login'],
-                'createdAt': repo_data['createdAt'],
-                'updatedAt': repo_data['updatedAt'],
-                'releases': repo_data['releases']['totalCount'],
-                'url': repo_data['url']
-            })
+            repository_data = repo[NODE]
+            write_csv(fieldnames, repository_data, writer)
 
 
-def read_csv(path):
+def write_pull_requests_csv(pull_requests_fetched, fieldnames, filename, directory=RESULTS_DIR):
+    with open(os.path.join(directory, filename), WRITE_COMMAND, newline=EMPTY_STRING, encoding=STANDARD_ENCODING) as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for repository_name, pull_request_list in pull_requests_fetched.items():
+            print('Writing pull requests for repository:', repository_name)
+            for pull_request in pull_request_list:
+                pull_request_data = pull_request[NODE]
+                pull_request_data[REPOSITORY] = repository_name
+                write_csv(fieldnames, pull_request_data, writer)
+
+
+def write_csv(fieldnames, data, writer):
+    row = {}
+    for field in fieldnames:
+        keys = field.split(DOT)
+        value = data
+        for key in keys:
+            value = value.get(key, None)
+        row[field] = value
+    writer.writerow(row)
+
+
+def read_csv(path) -> any:
     if os.path.exists(path):
-        with open(path, 'r', newline='', encoding='utf-8') as csvfile:
+        with open(path, READ_COMMAND, newline=EMPTY_STRING, encoding=STANDARD_ENCODING) as csvfile:
             reader = csv.DictReader(csvfile)
             return [row for row in reader]
     else:
