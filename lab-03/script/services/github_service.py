@@ -54,29 +54,27 @@ def fetch_repositories(repositories_count: int = 1000) -> list:
 def fetch_repositories_pull_requests(pull_requests_per_repository: int) -> dict:
     client = setup_github_client()
     repositories = read_csv(os.path.join(RESULTS_DIR, REPOSITORIES_FILE))
-    has_next = True
     pull_requests_fetched = {}
 
-    for repository in repositories:
+    for index, repository in enumerate(repositories):
         cursor = None
-        print(f"Fetching pull requests for repository: {repository[NAME]}")
         pull_requests_fetched[repository[NAME]] = []
         repository_pull_requests = int(repository['pullRequests.totalCount'])
 
-        while has_next and len(pull_requests_fetched[repository[
-            NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
+        while len(pull_requests_fetched[repository[NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
             try:
                 response = client.execute(FETCH_PULL_REQUESTS_QUERY, variable_values={
                     QUERY: f"repo:{repository[REPOSITORY_FIELD_NAMES[INDEX_TWO]]}/{repository[REPOSITORY_FIELD_NAMES[INDEX_ZERO]]}",
                     FETCH_RATE: min(
                         PULL_REQUEST_FETCH_RATE if repository_pull_requests > PULL_REQUEST_FETCH_RATE else repository_pull_requests,
-                        pull_requests_per_repository),
+                        pull_requests_per_repository,
+                        PULL_REQUESTS_TO_FETCH - len(pull_requests_fetched[repository[NAME]])),
                     AFTER: cursor
                 })
                 cursor = response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][PAGE_INFO][END_CURSOR]
-                has_next = response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][PAGE_INFO][HAS_NEXT_PAGE]
                 pull_requests_fetched[repository[NAME]].extend(response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][EDGES])
-                print(f"Pull requests fetched for {repository[NAME]}: {len(pull_requests_fetched[repository[NAME]])}")
+                print(
+                    f"Pull requests fetched for {repository[NAME]} ({index + 1}/{len(repositories)}): {len(pull_requests_fetched[repository[NAME]])}")
             except Exception as e:
                 print("Error while fetching pull requests: ", e)
                 continue

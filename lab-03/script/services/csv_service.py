@@ -33,7 +33,11 @@ def write_csv(fieldnames, data, writer):
         keys = field.split(DOT)
         value = data
         for key in keys:
-            value = value.get(key, None)
+            try:
+                value = value.get(key, None)
+            except AttributeError:
+                print('Error accessing key:', key)
+                value = EMPTY_STRING
         row[field] = value
     writer.writerow(row)
 

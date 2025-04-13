@@ -3,10 +3,9 @@ import os
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from script.constants.constants import RESULTS_DIR, SUMMARY_CK_FILE
+from script.constants.constants import RESULTS_DIR, PULL_REQUESTS_FILE
 
-csv_file_path = os.path.join(RESULTS_DIR, SUMMARY_CK_FILE)
-df = pd.read_csv(csv_file_path)
+df = pd.read_csv(os.path.join(RESULTS_DIR, PULL_REQUESTS_FILE))
 
 
 def generate_graphs():
