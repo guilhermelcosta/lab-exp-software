@@ -27,7 +27,7 @@ def fetch_repositories(repositories_count: int = 1000) -> list:
     cursor = None
     repositories_fetched = []
 
-    if not are_repositories_fetched(repositories_count):
+    if not are_data_fetched(repositories_count, RESULTS_DIR, REPOSITORIES_FILE):
         while has_next and len(repositories_fetched) < repositories_count:
             try:
                 response = client.execute(FETCH_REPOSITORIES_QUERY, variable_values={
@@ -61,7 +61,9 @@ def fetch_repositories_pull_requests(pull_requests_per_repository: int) -> dict:
         pull_requests_fetched[repository[NAME]] = []
         repository_pull_requests = int(repository['pullRequests.totalCount'])
 
-        while len(pull_requests_fetched[repository[NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
+    if not are_data_fetched(pull_requests_per_repository, RESULTS_DIR, REPOSITORIES_FILE):
+        while len(pull_requests_fetched[repository[
+            NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
             try:
                 response = client.execute(FETCH_PULL_REQUESTS_QUERY, variable_values={
                     QUERY: f"repo:{repository[REPOSITORY_FIELD_NAMES[INDEX_TWO]]}/{repository[REPOSITORY_FIELD_NAMES[INDEX_ZERO]]}",
@@ -79,12 +81,14 @@ def fetch_repositories_pull_requests(pull_requests_per_repository: int) -> dict:
                 print("Error while fetching pull requests: ", e)
                 continue
 
-    write_pull_requests_csv(pull_requests_fetched, PULL_REQUESTS_FIELD_NAMES, PULL_REQUESTS_FILE)
+        write_pull_requests_csv(pull_requests_fetched, PULL_REQUESTS_FIELD_NAMES, PULL_REQUESTS_FILE)
+    else:
+        print("Pull requests already fetched")
 
     return pull_requests_fetched
 
 
-def are_repositories_fetched(repositories_count: int) -> bool:
-    file_path = os.path.join(RESULTS_DIR, REPOSITORIES_FILE)
+def are_data_fetched(fetch_count: int, directory: str, file: str) -> bool:
+    file_path = os.path.join(directory, file)
 
-    return len(read_csv(file_path) or []) >= repositories_count
+    return len(read_csv(file_path) or []) >= fetch_count
