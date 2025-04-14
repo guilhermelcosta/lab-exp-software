@@ -44,7 +44,7 @@ LOGIN = "login"
 TOTAL_COUNT = "totalCount"
 
 # Directories
-RESULTS_DIR = "results"
+RESULTS_DIR = "script/results"
 REPOSITORIES_DIR = "repositories"
 
 # Files
