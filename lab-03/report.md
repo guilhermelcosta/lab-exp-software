@@ -21,8 +21,7 @@ analisar:
 
 ## Metodologia
 
-A metodologia adotada para responder às questões de pesquisa será baseada na coleta de dados dos 1.000 repositórios mais populares do
-GitHub, utilizando a API GraphQL do GitHub. O processo será dividido em duas etapas:
+A análise foi realizada com base em dados extraídos de PRs de diversos repositórios. Para cada PR, coletamos métricas específicas que foram utilizadas para responder às questões de pesquisa. O processo foi dividido em duas etapas:
 
 1. **Coleta de Dados**
 
