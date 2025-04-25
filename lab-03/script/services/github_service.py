@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 
 from dotenv import load_dotenv
 from gql import Client
@@ -37,7 +38,7 @@ def fetch_repositories(repositories_count: int = 1000) -> list:
                 print("Erro while fetching repositories: ", e)
                 continue
 
-            repositories = response[SEARCH][EDGES]
+            repositories = [repo for repo in response[SEARCH][EDGES] if repo['node']['pullRequests']['totalCount'] > 100]
             page_info = response[SEARCH][PAGE_INFO]
             has_next = page_info[HAS_NEXT_PAGE]
             cursor = page_info[END_CURSOR]
@@ -61,9 +62,7 @@ def fetch_repositories_pull_requests(pull_requests_per_repository: int) -> dict:
         pull_requests_fetched[repository[NAME]] = []
         repository_pull_requests = int(repository['pullRequests.totalCount'])
 
-    if not are_data_fetched(pull_requests_per_repository, RESULTS_DIR, REPOSITORIES_FILE):
-        while len(pull_requests_fetched[repository[
-            NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
+        while len(pull_requests_fetched[repository[NAME]]) < pull_requests_per_repository if pull_requests_per_repository is not None else repository_pull_requests:
             try:
                 response = client.execute(FETCH_PULL_REQUESTS_QUERY, variable_values={
                     QUERY: f"repo:{repository[REPOSITORY_FIELD_NAMES[INDEX_TWO]]}/{repository[REPOSITORY_FIELD_NAMES[INDEX_ZERO]]}",
@@ -74,16 +73,23 @@ def fetch_repositories_pull_requests(pull_requests_per_repository: int) -> dict:
                     AFTER: cursor
                 })
                 cursor = response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][PAGE_INFO][END_CURSOR]
-                pull_requests_fetched[repository[NAME]].extend(response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][EDGES])
+                filtered_pull_requests = [
+                    pr for pr in response[SEARCH][EDGES][INDEX_ZERO][NODE][PULL_REQUESTS][EDGES]
+                    if (
+                        (pr['node'].get('mergedAt') and
+                         (datetime.fromisoformat(pr['node']['mergedAt']) - datetime.fromisoformat(pr['node']['createdAt'])).total_seconds() >= 3600) or
+                        (pr['node'].get('closedAt') and not pr['node'].get('mergedAt') and
+                         (datetime.fromisoformat(pr['node']['closedAt']) - datetime.fromisoformat(pr['node']['createdAt'])).total_seconds() >= 3600)
+                    )
+                ]
+                pull_requests_fetched[repository[NAME]].extend(filtered_pull_requests)
                 print(
                     f"Pull requests fetched for {repository[NAME]} ({index + 1}/{len(repositories)}): {len(pull_requests_fetched[repository[NAME]])}")
             except Exception as e:
                 print("Error while fetching pull requests: ", e)
                 continue
 
-        write_pull_requests_csv(pull_requests_fetched, PULL_REQUESTS_FIELD_NAMES, PULL_REQUESTS_FILE)
-    else:
-        print("Pull requests already fetched")
+    write_pull_requests_csv(pull_requests_fetched, PULL_REQUESTS_FIELD_NAMES, PULL_REQUESTS_FILE)
 
     return pull_requests_fetched
 
