@@ -2,41 +2,49 @@
 # RELATÓRIO FINAL: COMPARAÇÃO GRAPHQL VS REST
 
 **Data de execução:** 2025-06-08 12:07:36
+
 **Total de medições:** 180
+
 **Ambiente experimental:** 
 - Processador: Ryzen 5 3600
 - RAM: 16GB DDR4
 - SO: Windows 11 (WSL)
 - Python 3.12.3
-- Bibliotecas: Flask 2.2.2, Flask-GraphQL 2.0.1, graphene 3.2, requests 2.28.1
+- Bibliotecas principais: Flask 2.2.2, Flask-GraphQL 2.0.1, graphene 3.2, requests 2.28.1
 
 ## 1. Introdução
-Este relatório apresenta os resultados de um experimento controlado comparando APIs GraphQL e REST. As perguntas de pesquisa são:
+Este relatório apresenta os resultados de um experimento controlado comparando APIs GraphQL e REST. As perguntas da pesquisa são:
 
 **RQ1:** Respostas às consultas GraphQL são mais rápidas que respostas às consultas REST?
 
 **RQ2:** Respostas às consultas GraphQL têm tamanho menor que respostas às consultas REST?
 
 Hipóteses:
-- H0 (RQ1): Não há diferença significativa no tempo de resposta
-- H1 (RQ1): GraphQL é mais rápido que REST
-- H0 (RQ2): Não há diferença significativa no tamanho das respostas
-- H1 (RQ2): GraphQL produz respostas menores que REST
+
+RQ1:
+
+- H0: Não há diferença significativa no tempo de resposta
+- H1: GraphQL é mais rápido que REST
+
+RQ2:
+
+- H0: Não há diferença significativa no tamanho das respostas
+- H1: GraphQL produz respostas menores que REST
 
 ## 2. Metodologia
 
 ### 2.1. Desenho Experimental
-- **Variáveis independentes:** Tipo de API (REST, GraphQL), Complexidade (simples, média, complexa)
-- **Variáveis dependentes:** Tempo de resposta (ms), Tamanho da resposta (bytes)
+- **Variáveis independentes:** Tipo de API (REST, GraphQL), complexidade (simples, média, complexa)
+- **Variáveis dependentes:** Tempo de resposta (ms), tamanho da resposta (bytes)
 - **Tratamentos:** 6 combinações (2 APIs × 3 complexidades)
-- **Repetições:** 30 execuções por tratamento (total 180 medições)
+- **Repetições:** 30 execuções para cada complexidade (total 180 medições)
 - **Ambiente:** Local (localhost), sem tráfego de rede externa
 
 ### 2.2. Execução
 1. Banco de dados inicializado com dados de exemplo
 2. APIs REST e GraphQL iniciadas em portas diferentes
 3. Script de benchmark executado sequencialmente:
-   - 30 requisições para cada combinação
+   - 30 requisições para cada complexidade
    - Tempo medido do início da requisição até resposta completa
    - Tamanho medido pelo conteúdo da resposta
 
@@ -87,22 +95,22 @@ Hipóteses:
 ## 4. Análise e Discussão
 
 ### RQ1: Tempo de Resposta
-- Consultas simples: Rejeita H0 (p = 0.0000)
-- Consultas médias: Rejeita H0 (p = 0.0000)
-- Consultas complexas: Rejeita H0 (p = 0.0000)
+- Consultas simples: Rejeita H0
+- Consultas médias: Rejeita H0
+- Consultas complexas: Rejeita H0
 
 Padrão observado: Em consultas simples, médias, complexas, GraphQL demonstrou desempenho significativamente menor que REST.
 
 ### RQ2: Tamanho da Resposta
-- Consultas simples: Rejeita H0 (p = 0.0000)
-- Consultas médias: Rejeita H0 (p = 0.0000)
-- Consultas complexas: Rejeita H0 (p = 0.0000)
+- Consultas simples: Rejeita H0
+- Consultas médias: Rejeita H0
+- Consultas complexas: Rejeita H0
 
 Padrão observado: Em consultas simples, médias, complexas, GraphQL produziu respostas significativamente maiores que REST.
 
 ### 4.1. Ameaças à Validade
 1. **Validade interna:** Variações no ambiente de execução foram minimizadas executando em máquina dedicada
-2. **Validade externa:** Resultados específicos para modelo de dados de blog - outros domínios podem variar
+2. **Validade externa:** Resultados específicos para modelo de dados de exemplo criado
 3. **Viés de implementação:** Mesma base de dados e lógica de negócio usada em ambas APIs
 
 ## 5. Conclusões
